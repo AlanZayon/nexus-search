@@ -4,25 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0f172a">
     <title>Nexus Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             color-scheme: dark;
-            --primary-bg: #1a1a2e;
-            --secondary-bg: #16213e;
-            --accent-color: #0f3460;
-            --text-primary: #e6f1ff;
-            --text-secondary: #a8b2d1;
-            --highlight: #64ffda;
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --highlight: #38bdf8;
+            --highlight-hover: #0ea5e9;
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             background-color: var(--primary-bg);
             color: var(--text-primary);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -30,32 +48,32 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background-image: radial-gradient(circle at 25% 25%, rgba(30, 39, 73, 0.8) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(15, 52, 96, 0.6) 0%, transparent 50%);
-            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(30, 41, 59, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(56, 189, 248, 0.2) 0%, transparent 50%);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
         .main-content {
             position: relative;
             z-index: 1;
             width: 100%;
+            max-width: 800px;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
+            animation: fadeIn 0.5s ease-out;
         }
 
-        .search-area {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .logo-container {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -64,14 +82,23 @@
         }
 
         .logo {
-            width: 180px;
-            height: 180px;
-            filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.2));
-            transition: var(--transition);
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: var(--transition);
+        }
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            flex-shrink: 0;
         }
 
         .logo-icon {
@@ -87,30 +114,34 @@
         .logo-icon::after {
             content: '';
             position: absolute;
-            background-color: var(--highlight);
-            border-radius: 2px;
+            border-radius: 50%;
             transition: var(--transition);
         }
 
         .logo-icon::before {
-            width: 90px;
-            height: 90px;
-            border: 12px solid var(--highlight);
-            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            border: 3px solid var(--highlight);
             opacity: 0.8;
+            animation: pulse 4s infinite ease-in-out;
         }
 
         .logo-icon::after {
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             background-color: var(--highlight);
-            border-radius: 50%;
-             box-shadow: 0 0 0 6px var(--primary-bg), 0 0 0 9px var(--highlight);
+            box-shadow: 0 0 0 4px var(--primary-bg), 0 0 0 6px var(--highlight);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
         }
 
         .logo:hover .logo-icon::before {
             transform: rotate(15deg);
             opacity: 1;
+            animation: none;
         }
 
         .logo:hover .logo-icon::after {
@@ -120,38 +151,38 @@
         .tagline {
             color: var(--text-secondary);
             font-size: 1rem;
-            margin-top: 1rem;
+            font-weight: 400;
             letter-spacing: 0.5px;
             text-align: center;
-            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
         .search-container {
             width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 20px;
+            max-width: 640px;
+            margin: 0 auto 1.5rem;
             position: relative;
             z-index: 1;
         }
 
         .search-bar {
             position: relative;
-            border: 1px solid rgba(100, 255, 218, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.2);
             background-color: var(--secondary-bg);
             border-radius: var(--border-radius);
-            padding: 12px 24px;
+            padding: 0.75rem 1.5rem;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            height: 50px;
+            box-shadow: var(--shadow-lg);
+            height: 60px;
             transition: var(--transition);
-            position: relative;
         }
 
         .search-bar:focus-within {
             border-color: var(--highlight);
-            box-shadow: 0 4px 30px rgba(15, 52, 96, 0.4);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3), var(--shadow-xl);
             transform: translateY(-2px);
         }
 
@@ -160,9 +191,11 @@
             outline: none;
             width: 100%;
             font-size: 1.1rem;
+            font-weight: 400;
             background: transparent;
             color: var(--text-primary);
-            padding: 0 12px;
+            padding: 0 0.75rem;
+            caret-color: var(--highlight);
         }
 
         .search-input::placeholder {
@@ -170,86 +203,192 @@
             opacity: 0.7;
         }
 
-        .autocomplete-container {
-            position: absolute;
-            top: calc(100% + 5px);
-            left: 0;
-            right: 0;
-            background-color: var(--secondary-bg);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            border-top: none;
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 1000;
-            margin-top: -1px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            display: none;
+        .search-icon {
+            color: var(--text-secondary);
+            transition: var(--transition);
         }
 
-        .autocomplete-item {
-            padding: 12px 24px;
+        .search-bar:focus-within .search-icon {
+            color: var(--highlight);
+        }
+
+        .widgets-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .widget {
+            background-color: var(--secondary-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        .widget:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .widget-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(56, 189, 248, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--highlight);
+            font-size: 1.2rem;
+        }
+
+        .widget-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .widget-content {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .widget-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-bg);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .widget-frame-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        .widget-frame-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .widget-frame-title i {
+            margin-right: 1rem;
+            color: var(--highlight);
+        }
+
+        .widget-frame-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
             cursor: pointer;
             transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(100, 255, 218, 0.05);
         }
 
-        .autocomplete-item:last-child {
-            border-bottom: none;
-        }
-
-        .autocomplete-item:hover,
-        .autocomplete-item.selected {
-            background-color: var(--accent-color);
-        }
-
-        .autocomplete-item .icon {
-            margin-right: 12px;
+        .widget-frame-close:hover {
             color: var(--highlight);
         }
 
-        .autocomplete-item .search-count {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-
-        .autocomplete-section-title {
-            padding: 12px 24px;
-            font-size: 0.9rem;
-            color: var(--highlight);
-            background-color: rgba(15, 52, 96, 0.3);
-            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
-            display: flex;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1;
+        .widget-frame-content {
+            flex: 1;
+            width: 100%;
+            height: calc(100% - 60px);
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--secondary-bg);
         }
 
         .favorites-container {
             width: 100%;
-            max-width: 600px;
-            margin: 20px auto 0;
-            padding: 0 20px;
+            max-width: 640px;
+            margin: 1.5rem auto 0;
+            padding: 1rem;
+            background-color: rgba(30, 41, 59, 0.5);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            transition: var(--transition);
         }
 
-        .favorites-title {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
+        .favorites-container:hover {
+            border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        .favorites-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .favorites-title {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .favorites-title .icon {
+            margin-right: 0.5rem;
+            color: var(--highlight);
+        }
+
+        .add-favorite-btn {
+            background: none;
+            border: none;
+            color: var(--highlight);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .add-favorite-btn:hover {
+            background-color: rgba(56, 189, 248, 0.1);
+        }
+
+        .add-favorite-btn .icon {
+            margin-right: 0.25rem;
+            font-size: 0.9rem;
         }
 
         .favorites-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-            gap: 15px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 1rem;
         }
 
         .favorite-item {
@@ -261,72 +400,75 @@
             text-decoration: none;
             color: var(--text-primary);
             position: relative;
+            border-radius: var(--border-radius-sm);
+            padding: 0.5rem 0.25rem;
+        }
+
+        .favorite-item:hover {
+            background-color: rgba(56, 189, 248, 0.05);
         }
 
         .favorite-icon {
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             background-color: var(--secondary-bg);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 5px;
+            margin-bottom: 0.5rem;
             transition: var(--transition);
             overflow: hidden;
-            border: 1px solid rgba(100, 255, 218, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            box-shadow: var(--shadow-sm);
         }
 
         .favorite-icon img {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
             object-fit: contain;
+            transition: var(--transition);
+            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
         }
 
         .favorite-item:hover .favorite-icon {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border-color: rgba(100, 255, 218, 0.3);
+            box-shadow: var(--shadow);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .favorite-item:hover .favorite-icon img {
+            transform: scale(1.1);
         }
 
         .favorite-name {
             font-size: 0.7rem;
+            font-weight: 500;
             text-align: center;
-            max-width: 60px;
+            max-width: 100%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .add-favorite-btn {
-            background: none;
-            border: none;
-            color: var(--highlight);
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .add-favorite-btn:hover {
-            opacity: 0.8;
-        }
-
         .remove-favorite {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: 0;
+            right: 0;
             width: 18px;
             height: 18px;
-            background-color: #ff4d4d;
+            background-color: #ef4444;
             border-radius: 50%;
             border: none;
             color: white;
             font-size: 10px;
+            font-weight: bold;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 2;
+            transition: var(--transition);
         }
 
         .favorite-item:hover .remove-favorite {
@@ -334,7 +476,49 @@
         }
 
         .remove-favorite:hover {
-            background-color: #ff1a1a;
+            background-color: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .search-btn {
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: white;
+            transition: var(--transition);
+            min-width: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+        }
+
+        .search-btn:hover {
+            background-color: var(--accent-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .search-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-btn .icon {
+            margin-right: 0.5rem;
+            font-size: 1rem;
         }
 
         .modal {
@@ -348,44 +532,76 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease-out;
         }
 
         .modal-content {
             background-color: var(--secondary-bg);
-            padding: 20px;
+            padding: 1.5rem;
             border-radius: var(--border-radius);
             width: 90%;
             max-width: 400px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            box-shadow: var(--shadow-xl);
+            transform: translateY(20px);
+            transition: transform 0.2s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
         }
 
         .modal-title {
-            margin-top: 0;
-            color: var(--highlight);
+            margin: 0 0 1.5rem 0;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-input-group {
+            margin-bottom: 1rem;
+        }
+
+        .modal-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         .modal-input {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 0.75rem;
             background-color: var(--primary-bg);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            border-radius: var(--border-radius);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: var(--border-radius-sm);
             color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
         }
 
         .modal-buttons {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
         }
 
         .modal-btn {
-            padding: 8px 16px;
-            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
             cursor: pointer;
             transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .modal-btn.cancel {
@@ -406,75 +622,108 @@
         }
 
         .modal-btn.save:hover {
-            opacity: 0.9;
+            background-color: var(--highlight-hover);
         }
 
-        .buttons {
-            margin-top: 2rem;
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            position: relative;
-            z-index: 0;
-            width: 100%;
-        }
-
-        .search-btn {
-            background-color: var(--accent-color);
-            border: none;
-            border-radius: var(--border-radius);
-            padding: 12px 24px;
-            cursor: pointer;
-            font-size: 1rem;
-            color: var(--text-primary);
+        .footer {
+            margin-top: 3rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 400;
             transition: var(--transition);
-            min-width: 140px;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .footer:hover {
+            color: var(--highlight);
+        }
+
+        .footer a {
+            color: var(--highlight);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Micro-interactions */
+        .ripple {
             position: relative;
             overflow: hidden;
         }
 
-        .search-btn::before {
-            content: '';
+        .ripple:after {
+            content: "";
+            display: block;
             position: absolute;
-            top: 0;
-            left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.2), transparent);
-            transition: 0.5s;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
         }
 
-        .search-btn:hover {
-            background-color: #0d2a4a;
-            box-shadow: 0 4px 12px rgba(15, 52, 96, 0.4);
+        .ripple:active:after {
+            transform: scale(0, 0);
+            opacity: 0.2;
+            transition: 0s;
         }
 
-        .search-btn:hover::before {
-            left: 100%;
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .widgets-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
         }
 
-        .search-btn:active {
-            transform: scale(0.98);
-        }
+        @media (max-width: 640px) {
+            .main-content {
+                padding: 1.5rem;
+            }
 
-        .footer {
-            margin-top: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            opacity: 0.7;
-            transition: var(--transition);
-            text-align: center;
-            position: relative;
-            z-index: 0;
-            width: 100%;
-        }
-        
-        .footer:hover {
-            opacity: 1;
-            color: var(--highlight);
-        }
+            .logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
 
-        @media (max-width: 600px) {
+            .search-bar {
+                height: 56px;
+                padding: 0.75rem 1.25rem;
+            }
+
+            .search-input {
+                font-size: 1rem;
+            }
+
+            .widgets-container {
+                grid-template-columns: 1fr;
+            }
+
+            .favorites-grid {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+                gap: 0.75rem;
+            }
+
+            .favorite-icon {
+                width: 44px;
+                height: 44px;
+            }
+
+            .favorite-icon img {
+                width: 22px;
+                height: 22px;
+            }
+
             .buttons {
                 flex-direction: column;
                 align-items: center;
@@ -483,15 +732,16 @@
             .search-btn {
                 width: 100%;
             }
-            
-            .logo {
-                width: 150px;
-                height: 150px;
+        }
+
+        @media (max-width: 400px) {
+            .main-content {
+                padding: 1rem;
             }
 
             .favorites-grid {
-                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-                gap: 10px;
+                grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+                gap: 0.5rem;
             }
 
             .favorite-icon {
@@ -500,14 +750,23 @@
             }
 
             .favorite-icon img {
-                width: 24px;
-                height: 24px;
+                width: 20px;
+                height: 20px;
             }
 
             .favorite-name {
-                font-size: 0.6rem;
-                max-width: 50px;
+                font-size: 0.65rem;
             }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
         }
     </style>
 </head>
@@ -515,52 +774,99 @@
 <body>
     <div class="main-content">
         <div class="logo-container">
-            <div class="logo">
+            <div class="logo floating">
                 <div class="logo-icon"></div>
             </div>
-            <div class="tagline">Pesquise com elegância</div>
+            <p class="tagline">Encontre o que procura com velocidade e elegância</p>
         </div>
         
-        <div class="search-area">
-            <form class="search-container" id="searchForm" action="https://www.google.com/search" method="GET">
-                <div class="search-bar">
-                    <input type="text" name="q" id="searchInput" class="search-input" placeholder="Digite sua pesquisa..." required autocomplete="off">
-                    <div class="autocomplete-container" id="autocompleteContainer"></div>
-                </div>
-            </form>
-
-            <div class="favorites-container">
-                <div class="favorites-title">
-                    <span>Seus sites favoritos</span>
-                    <button class="add-favorite-btn" id="addFavoriteBtn">+ Adicionar</button>
-                </div>
-                <div class="favorites-grid" id="favoritesGrid">
-                    <!-- Favoritos serão carregados aqui -->
-                </div>
+        <form class="search-container" id="searchForm" action="https://www.google.com/search" method="GET">
+            <div class="search-bar">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input type="text" name="q" id="searchInput" class="search-input" placeholder="Pesquise na web ou digite um endereço..." required autocomplete="off" aria-label="Pesquisar">
             </div>
-            
-            <div class="buttons">
-                <button class="search-btn" type="submit" form="searchForm">Pesquisar</button>
-                <button class="search-btn" type="button" onclick="window.location.href='https://www.google.com/doodles'">Explorar</button>
+        </form>
+                <div class="buttons">
+            <button class="search-btn ripple" type="submit" form="searchForm">
+                <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Pesquisar
+            </button>
+            <button class="search-btn ripple" type="button" onclick="window.location.href='https://www.google.com/doodles'">
+                <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.93 6.91L17.84 5.99C18.03 5.8 18.03 5.49 17.84 5.3L17.7 5.16C17.51 4.97 17.2 4.97 17.01 5.16L16.09 6.07C15.5 5.48 14.65 5.15 13.78 5.32C12.91 5.5 12.2 6.15 11.92 7H7C6.45 7 6 7.45 6 8V10C6 10.55 6.45 11 7 11H11.92C12.2 11.85 12.91 12.5 13.78 12.68C14.65 12.85 15.5 12.52 16.09 11.93L17.01 12.84C17.2 13.03 17.51 13.03 17.7 12.84L17.84 12.7C18.03 12.51 18.03 12.2 17.84 12.01L16.93 11.09C17.52 10.5 17.85 9.65 17.68 8.78C17.5 7.91 16.85 7.2 16 6.92V11C16 11.55 15.55 12 15 12H9C8.45 12 8 11.55 8 11V9C8 8.45 8.45 8 9 8H15C15.55 8 16 7.55 16 7V6.92C16.5 7 16.96 7.24 17.33 7.61C17.76 8.04 18 8.61 18 9.2C18 9.79 17.76 10.36 17.33 10.79C16.96 11.16 16.5 11.4 16 11.48V11.09L16.93 10.16C17.52 9.57 17.85 8.72 17.68 7.85C17.5 6.98 16.85 6.27 16 5.99V6.91Z" fill="currentColor"/>
+                </svg>
+                Explorar
+            </button>
+        </div>
+                <div class="favorites-container">
+            <div class="favorites-header">
+                <h3 class="favorites-title">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="currentColor"/>
+                    </svg>
+                    Seus favoritos
+                </h3>
+                <button class="add-favorite-btn ripple" id="addFavoriteBtn">
+                    <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Adicionar
+                </button>
+            </div>
+            <div class="favorites-grid" id="favoritesGrid">
+                <!-- Favoritos serão carregados aqui -->
             </div>
         </div>
+
+        <!-- Widgets Container -->
+        <div class="widgets-container" id="widgetsContainer">
+            <!-- Widgets serão carregados aqui -->
+        </div>
+
+
+    
+    </div>
+
+    <!-- Widget Frame (para exibir conteúdo) -->
+    <div class="widget-frame" id="widgetFrame">
+        <div class="widget-frame-header">
+            <h2 class="widget-frame-title" id="widgetFrameTitle">
+                <i id="widgetFrameIcon"></i>
+                <span id="widgetFrameTitleText"></span>
+            </h2>
+            <button class="widget-frame-close" id="widgetFrameClose">&times;</button>
+        </div>
+        <iframe class="widget-frame-content" id="widgetFrameContent"></iframe>
     </div>
 
     <!-- Modal para adicionar favorito -->
     <div class="modal" id="addFavoriteModal">
         <div class="modal-content">
             <h3 class="modal-title">Adicionar Site Favorito</h3>
-            <input type="text" id="favoriteName" class="modal-input" placeholder="Nome do site (ex: Google)">
-            <input type="text" id="favoriteUrl" class="modal-input" placeholder="URL (ex: https://www.google.com)">
+            <div class="modal-input-group">
+                <label for="favoriteName" class="modal-label">Nome do site</label>
+                <input type="text" id="favoriteName" class="modal-input" placeholder="Ex: Google" autocomplete="off">
+            </div>
+            <div class="modal-input-group">
+                <label for="favoriteUrl" class="modal-label">URL do site</label>
+                <input type="text" id="favoriteUrl" class="modal-input" placeholder="Ex: https://www.google.com" autocomplete="off">
+            </div>
             <div class="modal-buttons">
-                <button class="modal-btn cancel" id="cancelFavoriteBtn">Cancelar</button>
-                <button class="modal-btn save" id="saveFavoriteBtn">Salvar</button>
+                <button class="modal-btn cancel ripple" id="cancelFavoriteBtn">Cancelar</button>
+                <button class="modal-btn save ripple" id="saveFavoriteBtn">Salvar</button>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        Nexus Search © 2025 • Sua busca, nosso cuidado
+        Nexus Search © 2025 • <a href="#" target="_blank">Privacidade</a> • <a href="#" target="_blank">Termos</a>
     </div>
 
     <script>
@@ -600,6 +906,23 @@
             function loadFavorites() {
                 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
                 favoritesGrid.innerHTML = '';
+                                if (favorites.length === 0) {
+                    const emptyState = document.createElement('div');
+                    emptyState.style.gridColumn = '1 / -1';
+                    emptyState.style.textAlign = 'center';
+                    emptyState.style.padding = '1rem';
+                    emptyState.style.color = 'var(--text-secondary)';
+                    emptyState.innerHTML = `
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 0.5rem;">
+                            <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="var(--text-secondary)" fill-opacity="0.2"/>
+                            <path d="M12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09Z" stroke="var(--text-secondary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p>Nenhum favorito adicionado</p>
+                        <p style="font-size: 0.8rem; margin-top: 0.25rem;">Clique em "Adicionar" para incluir seus sites favoritos</p>
+                    `;
+                    favoritesGrid.appendChild(emptyState);
+                    return;
+                }
                 
                 favorites.forEach(fav => {
                     const favItem = document.createElement('div');
